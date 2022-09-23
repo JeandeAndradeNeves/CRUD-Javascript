@@ -28,7 +28,26 @@ const createClient = (client) => {
     setLocalStorage(dbClient)
 };
 
+// Integração com o layout
+
+const isValidFields = () => {
+    return document.getElementById('form').reportValidity()
+};
+
+
+const saveClient = () => {
+    if (isValidFields()) {
+        const client = {
+            nome: document.getElementById('nome').value,
+            email: document.getElementById('email').value,
+            celular: document.getElementById('celular').value,
+            cidade: document.getElementById('cidade').value
+        }
+        createClient(client)
+    }
+};          
 
 // Eventos
 document.getElementById('cadastrarCliente').addEventListener('click', openModal);
 document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('salvar').addEventListener('click', saveClient)
