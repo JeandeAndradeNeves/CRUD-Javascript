@@ -52,7 +52,29 @@ const saveClient = () => {
         createClient(client)
         closeModal()
     }
-};          
+};  
+
+const createRow = (client) => {
+    const newRow = document.createElement('tr')
+    newRow.innerHTML = `
+        <td>${client.nome}</td>
+        <td>${client.email}</td>
+        <td>${client.celular}</td>
+        <td>${client.cidade}</td>
+        <td>
+            <button type="button" class="button green" id="edit-">Editar</button>
+            <button type="button" class="button red" id="delete-" >Excluir</button>
+        </td>
+    `
+    document.querySelector('#tableClient>tbody').appendChild(newRow)
+};
+
+const updateTable = () => {
+    const dbClient = readClient()
+    dbClient.forEach(createRow)
+};
+
+updateTable();
 
 // Eventos
 document.getElementById('cadastrarCliente').addEventListener('click', openModal);
