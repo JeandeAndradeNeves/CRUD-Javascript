@@ -62,8 +62,8 @@ const createRow = (client) => {
         <td>${client.celular}</td>
         <td>${client.cidade}</td>
         <td>
-            <button type="button" class="button green" id="edit-">Editar</button>
-            <button type="button" class="button red" id="delete-" >Excluir</button>
+        <button type="button" class="button green" id="edit-${index}">Editar</button>
+        <button type="button" class="button red" id="delete-${index}" >Excluir</button>
         </td>
     `
     document.querySelector('#tableClient>tbody').appendChild(newRow)
@@ -80,9 +80,28 @@ const updateTable = () => {
     dbClient.forEach(createRow)
 };
 
+const editDelete = (event) => {
+    if (event.target.type == 'button') {
+
+        const [action, index] = event.target.id.split('-')
+
+        if (action == 'edit') {
+            editClient(index)
+        } else {
+            const client = readClient()[index]
+            const response = confirm(`Deseja realmente excluir o cliente ${client.nome}`)
+            if (response) {
+                deleteClient(index)
+                updateTable()
+            }
+        }
+    }
+}
+
 updateTable();
 
 // Eventos
 document.getElementById('cadastrarCliente').addEventListener('click', openModal);
 document.getElementById('modalClose').addEventListener('click', closeModal);
-document.getElementById('salvar').addEventListener('click', saveClient)
+document.getElementById('salvar').addEventListener('click', saveClient);
+document.querySelector('#tableClient>tbody').addEventListener('click', editDelete)
